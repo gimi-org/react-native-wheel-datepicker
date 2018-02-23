@@ -72,7 +72,7 @@ export default class DatePicker extends PureComponent {
     const maxYear = this.props.maximumDate.getFullYear();
 
     for (let i = 1; i <= 12; i += 1) {
-      this.state.monthRange.push({ value: i, label: `${i}${this.props.labelUnit.month}` });
+      this.state.monthRange.push({ value: i, label: moment(i, 'MM').format('MMMM') });
     }
 
     this.state.yearRange.push({ value: minYear, label: `${minYear}${this.props.labelUnit.year}` });
@@ -135,28 +135,7 @@ export default class DatePicker extends PureComponent {
 
   get datePicker() {
     const propsStyles = stylesFromProps(this.props);
-
     return [
-      <View key='year' style={styles.picker}>
-        <Picker
-          {...propsStyles}
-          style={this.props.style}
-          ref={(year) => { this.yearComponent = year; }}
-          selectedValue={this.state.date.getFullYear()}
-          pickerData={this.state.yearRange}
-          onValueChange={this.onYearChange}
-        />
-      </View>,
-      <View key='month' style={styles.picker}>
-        <Picker
-          {...propsStyles}
-          style={this.props.style}
-          ref={(month) => { this.monthComponent = month; }}
-          selectedValue={this.state.date.getMonth() + 1}
-          pickerData={this.state.monthRange}
-          onValueChange={this.onMonthChange}
-        />
-      </View>,
       <View key='date' style={styles.picker}>
         <Picker
           {...propsStyles}
@@ -167,6 +146,27 @@ export default class DatePicker extends PureComponent {
           onValueChange={this.onDateChange}
         />
       </View>,
+      <View key='month' style={styles.picker}>
+        <Picker
+          {...propsStyles}
+          style={this.props.style}
+          ref={(month) => { this.monthComponent = month; }}
+          selectedValue={this.state.date}
+          label={'LOL'}
+          pickerData={this.state.monthRange}
+          onValueChange={this.onMonthChange}
+        />
+      </View>,
+      <View key='year' style={styles.picker}>
+        <Picker
+          {...propsStyles}
+          style={this.props.style}
+          ref={(year) => { this.yearComponent = year; }}
+          selectedValue={this.state.date.getFullYear()}
+          pickerData={this.state.yearRange}
+          onValueChange={this.onYearChange}
+        />
+      </View>
     ];
   }
   get timePicker() {
