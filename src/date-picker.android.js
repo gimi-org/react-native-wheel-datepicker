@@ -151,8 +151,7 @@ export default class DatePicker extends PureComponent {
           {...propsStyles}
           style={this.props.style}
           ref={(month) => { this.monthComponent = month; }}
-          selectedValue={this.state.date}
-          label={'LOL'}
+          selectedValue={this.state.date.getMonth() + 1}
           pickerData={this.state.monthRange}
           onValueChange={this.onMonthChange}
         />
