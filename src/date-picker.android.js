@@ -28,6 +28,7 @@ export default class DatePicker extends PureComponent {
       month: PropTypes.string,
       date: PropTypes.string,
     }),
+    lang: PropTypes.string,
     date: PropTypes.instanceOf(Date).isRequired,
     maximumDate: PropTypes.instanceOf(Date),
     minimumDate: PropTypes.instanceOf(Date),
@@ -59,7 +60,7 @@ export default class DatePicker extends PureComponent {
       monthRange: [],
       yearRange: [],
     };
-
+    if (props.lang) moment.locale(props.lang)
     const date = moment(this.state.date);
     this.newValue = {};
 
@@ -125,6 +126,7 @@ export default class DatePicker extends PureComponent {
   }
 
   render() {
+    console.warn(this.props.lang)
     return (
       <View style={styles.row}>
         {['date', 'datetime'].includes(this.props.mode) && this.datePicker}
