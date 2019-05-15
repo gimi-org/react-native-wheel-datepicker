@@ -145,7 +145,6 @@ export default class DatePicker extends PureComponent {
   }
 
   render() {
-    console.warn(this.props.lang)
     return (
       <View style={styles.row}>
         {['date', 'datetime'].includes(this.props.mode) && this.datePicker}
