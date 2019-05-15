@@ -19,6 +19,7 @@ const stylesFromProps = props => ({
   itemSpace: props.itemSpace,
   textColor: props.textColor,
   textSize: props.textSize,
+  style: props.style,
 });
 
 export default class DatePicker extends PureComponent {
@@ -29,6 +30,7 @@ export default class DatePicker extends PureComponent {
       date: PropTypes.string,
     }),
     lang: PropTypes.string,
+    order: PropTypes.string,
     date: PropTypes.instanceOf(Date).isRequired,
     maximumDate: PropTypes.instanceOf(Date),
     minimumDate: PropTypes.instanceOf(Date),
@@ -42,6 +44,7 @@ export default class DatePicker extends PureComponent {
 
   static defaultProps = {
     labelUnit: { year: '', month: '', date: '' },
+    order: 'D-M-Y',
     mode: 'date',
     maximumDate: moment().add(10, 'years').toDate(),
     minimumDate: moment().add(-10, 'years').toDate(),
@@ -64,23 +67,39 @@ export default class DatePicker extends PureComponent {
     const date = moment(this.state.date);
     this.newValue = {};
 
-    ['year', 'month', 'date', 'hour', 'minute'].forEach((s) => { this.newValue[s] = date.get(s); });
+    this.parseDate(date);
 
-    const dayNum = date.daysInMonth();
+    const mdate = moment(date);
+
+    const dayNum = mdate.daysInMonth();
     this.state.dayRange = this.genDateRange(dayNum);
 
-    const minYear = this.props.minimumDate.getFullYear();
-    const maxYear = this.props.maximumDate.getFullYear();
+    const minYear = minimumDate.getFullYear();
+    const maxYear = maximumDate.getFullYear();
 
     for (let i = 1; i <= 12; i += 1) {
       this.state.monthRange.push({ value: i, label: moment(i, 'MM').format('MMMM') });
     }
 
-    this.state.yearRange.push({ value: minYear, label: `${minYear}${this.props.labelUnit.year}` });
+    this.state.yearRange.push({ value: minYear, label: `${minYear}${labelUnit.year}` });
 
-    for (let i = minYear + 1; i <= maxYear + 1; i += 1) {
-      this.state.yearRange.push({ value: i, label: `${i}${this.props.labelUnit.year}` });
+    for (let i = minYear + 1; i <= maxYear; i += 1) {
+      this.state.yearRange.push({ value: i, label: `${i}${labelUnit.year}` });
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.date !== nextProps.date) {
+      this.parseDate(nextProps.date);
+
+      this.setState({ date: nextProps.date });
+    }
+  }
+
+  parseDate = (date) => {
+    const mdate = moment(date);
+
+    ['year', 'month', 'date', 'hour', 'minute'].forEach((s) => { this.newValue[s] = mdate.get(s); });
   }
 
   onYearChange = (year) => {
@@ -171,6 +190,7 @@ export default class DatePicker extends PureComponent {
       </View>
     ];
   }
+
   get timePicker() {
     const propsStyles = stylesFromProps(this.props);
 
