@@ -81,10 +81,10 @@ export default class DatePicker extends PureComponent {
       this.state.monthRange.push({ value: i, label: moment(i, 'MM').format('MMMM') });
     }
 
-    this.state.yearRange.push({ value: minYear, label: `${minYear}${labelUnit.year}` });
+    this.state.yearRange.push({ value: minYear, label: `${minYear}${this.props.labelUnit.year}` });
 
     for (let i = minYear + 1; i <= maxYear; i += 1) {
-      this.state.yearRange.push({ value: i, label: `${i}${labelUnit.year}` });
+      this.state.yearRange.push({ value: i, label: `${i}${this.props.labelUnit.year}` });
     }
   }
 
