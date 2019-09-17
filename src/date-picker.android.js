@@ -74,17 +74,17 @@ export default class DatePicker extends PureComponent {
     const dayNum = mdate.daysInMonth();
     this.state.dayRange = this.genDateRange(dayNum);
 
-    const minYear = this.props.minimumDate.getFullYear();
-    const maxYear = this.props.maximumDate.getFullYear();
+    const minYear = minimumDate.getFullYear();
+    const maxYear = maximumDate.getFullYear();
 
     for (let i = 1; i <= 12; i += 1) {
       this.state.monthRange.push({ value: i, label: moment(i, 'MM').format('MMMM') });
     }
 
-    this.state.yearRange.push({ value: minYear, label: `${minYear}${this.props.labelUnit.year}` });
+    this.state.yearRange.push({ value: minYear, label: `${minYear}${labelUnit.year}` });
 
-    for (let i = minYear + 1; i <= maxYear + 1; i += 1) {
-      this.state.yearRange.push({ value: i, label: `${i}${this.props.labelUnit.year}` });
+    for (let i = minYear + 1; i <= maxYear; i += 1) {
+      this.state.yearRange.push({ value: i, label: `${i}${labelUnit.year}` });
     }
   }
 
