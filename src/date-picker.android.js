@@ -3,6 +3,7 @@ import { ColorPropType, StyleSheet, View, ViewPropTypes as RNViewPropTypes } fro
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Picker from './picker';
+import 'moment/min/locales'
 
 const ViewPropTypes = RNViewPropTypes || View.propTypes;
 
@@ -63,7 +64,7 @@ export default class DatePicker extends PureComponent {
       monthRange: [],
       yearRange: [],
     };
-    if (props.lang) moment.locale(props.lang)
+    if (props.lang) moment.locale([props.lang, 'en'])
     const date = moment(this.state.date);
     this.newValue = {};
 
